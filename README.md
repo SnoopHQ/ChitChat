@@ -67,8 +67,8 @@ Creates a slash command. Names must be unique. An unamed command will handle def
 
 - `options.name` - (String) Command name
 - `options.description` - (String) User friendly description of the command
-- `options.arguments` - (Array<String>) Array of named positional arguments
-- `options.generateResponse` - ((context: ChitChatContext, args: Object) => (ChitChatMessage | Promise<ChitChatMessage>)?) Generate the response message for this command
+- `options.arguments` - (Array\<String\>) Array of named positional arguments
+- `options.generateResponse` - (async (context: ChitChatContext, args: Object) => Object) Generate the response message for this command
 
 #### `ChitChat.runCommand(name, args)`
 
@@ -98,8 +98,8 @@ In general, triggers are more ephemeral than commands. They are generally create
 - `options.channel` - (String) if this trigger applies to a single channel, that channel's ID
 - `options.once` - (Boolean) if true, trigger will execute exactly once, if not it will continue to execute indefinitely
 - `options.oncePerUser` - (Boolean) if true, trigger will execute at most once per user
-- `options.excludeUsers` - (Array<String>) users that are excluded from this trigger
-- `options.generateResponse` - ((context: ChitChatContext) => (ChitChatMessage | Promise<ChitChatMessage>)?) generate a response to this command
+- `options.excludeUsers` - (Array\<String\>) users that are excluded from this trigger
+- `options.generateResponse` - (async (context: ChitChatContext) => Object?) generate a response to this command
 
 ##### For `MESSAGE` Type Triggers
 
@@ -124,7 +124,7 @@ A conversation is a more complex contruct that consists of one or more **interac
 #### `ChitChat.createConversation(options)`
 
 - `options.name` (required) - (String) a name for this type of conversation, must be unique within your application
-- `options.interactions` (required) - (Array<ChitChatInteraction>) a list of interaction that can occur in this conversation
+- `options.interactions` (required) - (Array\<ChitChatInteraction\>) a list of interaction that can occur in this conversation
 - `options.initialInteraction` - ((context: ChitChatContext, args: Object) => ChitChatInteraction) a function that returns the first interaction of this conversation
 
 #### `ChitChat.startConversation(name, args)`
@@ -148,41 +148,54 @@ An interaction is composed of a question, or prompt, a user answer, and a respon
 
 - `options.name` (required) - (String) the name identifier of this interaction
 - `options.type` (required) - (ChitChatInteractionType) the type of interaction
-- `options.onComplete` - ((context: ChitChatContext, state: Object, response: any) => (void | Promise<void>)) lifecycle function that allows you to perform application specific tasks, like persisting data
-- `options.nextInteraction` - ((context: ChitChatContext, state: Object, response: any) => ChitChatInteraction?) produce the next interaction. If not supplied or falsey value returned, conversation will end.
+- `options.onComplete` - (async (context: ChitChatContext, state: Object, response: any) => {}) lifecycle function that allows you to perform application specific tasks, like persisting data
+- `options.nextInteraction` - (async (context: ChitChatContext, state: Object, response: any) => ChitChatInteraction?) produce the next interaction. If not supplied or falsey value returned, conversation will end.
 
 ##### For `MESSAGE` type Interactions
 
-- `options.generatePrompt` (required) - ((context: ChitChatContext, state: Object) => (ChitChatMessage | Promise<ChitChatMessage>)) generate the interaction's initial prompt
+- `options.generatePrompt` (required) - (async (context: ChitChatContext, state: Object) => Object) generate the interaction's initial prompt
 - `options.parseResponse` - ((response: String) => any) parse the response from raw text
 - `options.validateResponse` - ((response: any) => Boolean) validate if the response is valid
-- `options.generateInvalidMessage` - ((context: ChitChatContext, state: Object, response: any) => (ChitChatMessage | Promise<ChitChatMessage>)) a message to help the user arrive at a valid response
+- `options.generateInvalidMessage` - (async (context: ChitChatContext, state: Object, response: any) => Object) a message to help the user arrive at a valid response
 
 ##### For `BUTTON_CHOICE` type Interactions
 
-- `options.generatePrompt` (required) - ((context: ChitChatContext, state: Object) => Array<ChitChatButton>) generate the interaction's initial prompt
+- `options.generatePrompt` (required) - (async (context: ChitChatContext, state: Object) => Object) generate the interaction's initial prompt
 - `options.acknowledgeSelectionText` - (String) Text to acknowledge the user's button choice. If not specified `:thumbsup:` will be used
 
 ##### For `TRIGGER` type Interactions
 
-- `options.generatePrompt` (required) - ((context: ChitChatContext, state: Object) => (ChitChatMessage | Promise<ChitChatMessage>)) generate the interaction's initial prompt
-- `options.generateTrigger` (required) - ((context: ChitChatContext, state: Object) => ChitChatTrigger) generate the trigger that will conclude the interaction
+- `options.generatePrompt` (required) - (async (context: ChitChatContext, state: Object) => Object) generate the interaction's initial prompt
+- `options.generateTrigger` (required) - (async (context: ChitChatContext, state: Object) => ChitChatTrigger) generate the trigger that will conclude the interaction
 
 ----
 
-### TODO: ChitChatMessage
+### Messages
+
+Messages are both created and sent via this API.
+
+#### `ChitChat.createMessage(options)`
+
+- `options.team` (required) - (String) the team ID
+- `options.channel` (required) - (String) the channel ID
+- `options.text` - (String) message text
+- `options.buttons` - (Array\<Object\>) array of button shaped objects:
+  - `name` - (String) the display name of the button
+  - `value` - (String) the response value to be recorded
+- `options.slackAttachments` - (Array\<Object\>) an array of raw slack attachemnts
+  - See docs here TODO
 
 ----
 
-### TODO: ChitChatContext
+### `ChitChatContext`
 
 ----
 
-### TODO: ChitChatTeam
+### `ChitChatTeam`
 
 ----
 
-### TODO: ChitChatUser
+### `ChitChatUser`
 
 ----
 
