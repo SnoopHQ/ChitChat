@@ -68,7 +68,7 @@ Creates a slash command. Names must be unique. An unamed command will handle def
 - `options.name` - (String) Command name
 - `options.description` - (String) User friendly description of the command
 - `options.arguments` - (Array<String>) Array of named positional arguments
-- `options.generateResponse` - ((context: ChitChatContext) => (ChitChatMessage | Promise<ChitChatMessage>)?) Generate the response message for this command
+- `options.generateResponse` - ((context: ChitChatContext, args: Object) => (ChitChatMessage | Promise<ChitChatMessage>)?) Generate the response message for this command
 
 #### `ChitChat.runCommand(name, args)`
 
