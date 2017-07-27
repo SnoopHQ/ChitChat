@@ -85,7 +85,7 @@ Triggers are reactions to various events within a chat. For instance, there can 
 
 In general, triggers are more ephemeral than commands. They are generally created as the application runs and removed as a matter of course. They can be useful for complex interactions that span multiple channels or interaction types.
 
-#### `ChitChatTriggerType`
+#### `ChitChatTriggerType` Constants
 
 - `MESSAGE` - Trigger when message text is matched
 - `REACTION` - Trigger when a reaction is added to a message
@@ -138,7 +138,7 @@ A conversation is a more complex contruct that consists of one or more **interac
 
 An interaction is composed of a question, or prompt, a user answer, and a response. An interaction can also route to the next interaction in a conversation based on state and response.
 
-#### `ChitChatInteractionType`
+#### `ChitChatInteractionType` Constants
 
 - `MESSAGE` - Simple text based interaction
 - `BUTTON_CHOICE` - User chooses from a list of buttons
